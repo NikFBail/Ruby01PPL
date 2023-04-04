@@ -1,13 +1,15 @@
 ## Task 1
 $hm = Hash.new
 
+# Creating a string that has a lot of different parts to test several cases
 str  = 'This is a string? A STRING THIS IS!!!!'
-lowerstr = str.downcase
+lowerstr = str.downcase # Converts a string to all lowercase
 
-lowerstr.each_char { |c| 
+lowerstr.each_char { |c|
+    # if the key already exists, add one to the value
     if $hm.has_key?(c)
         $hm[c] += 1
-    else
+    else # otherwise create the key and set the value to one
         $hm[c] = 1
     end
 }
@@ -16,16 +18,19 @@ puts $hm
 
 ## Task 2
 
+# Finds the largest value of al the keys in $hm
 biggestChar = $hm.max_by {|key, value| value} [0]
 
 puts "The most frequent character in the string is #{biggestChar}"
 
 ## Task 3
 
+# function takes a hash and a lambda, uses the lambda to compute any aggregate func on the hash
 def useLambda(hash, lambda)
     hash.inject(0) {|sum, (key, val)| lambda.call(sum, key, val)}
 end 
 
+# Uses regex to determine if a char is a vowel or not
 def isVowel(c)
     return !c.downcase.match(/[aeiou]/).nil?
 end
