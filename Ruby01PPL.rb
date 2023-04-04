@@ -27,6 +27,7 @@ puts "The most frequent character in the string is #{biggestChar}"
 
 # function takes a hash and a lambda, uses the lambda to compute any aggregate func on the hash
 def useLambda(hash, lambda)
+    # Uses inject for the lambda to perform an action using the key value pairs in the hash
     hash.inject(0) {|sum, (key, val)| lambda.call(sum, key, val)}
 end 
 
@@ -44,6 +45,7 @@ numVowels = -> (sum, key, val) {
     end
 }
 
+# Uses regex to determine if there is any special characters(non-letters) in the string
 numSpeChars = -> (sum, key, val) {
     sum ||= 0
     is_non_letter = key.match(/[^a-zA-Z]/)
@@ -52,8 +54,10 @@ numSpeChars = -> (sum, key, val) {
     end
 }
 
+# Finds all keys in the hash that have a value of 1
 onlyOnce = -> (sum, key, val) {
-    sum ||= 0
+    sum ||= 0 #for some reason this can also be sum == 0 and it still runs
+    # but for the othe funcs, using '==' breaks the code. Why?
     if val == 1
         sum + 1
     else
@@ -65,10 +69,10 @@ onlyOnce = -> (sum, key, val) {
 result = useLambda($hm, numVowels)
 puts "Total number of vowels in the hash: #{result}"
 
-# Test case for numNonLetters lambda
+# Test case for numSpeChars lambda
 result = useLambda($hm, numSpeChars)
 puts "Total number of non-letter characters in the hash: #{result}" 
 
-# Test case for numOnce lambda
+# Test case for onlyOnce lambda
 result = useLambda($hm, onlyOnce)
 puts "Total number of keys with a value of 1 in the hash: #{result}"
